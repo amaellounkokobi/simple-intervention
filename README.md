@@ -1,24 +1,41 @@
-# simple-intervention AngulaJS 1.7 / Python Flask / postgreSQL 
+# Application de Gestion d'Intervention
 
-Description : Application de gestion d'intervention pour divers service
+## Description
 
-installation :
-Pre-requis
-Avoir Docker d'installer sur sa machine
+Une application web de gestion d'interventions pour divers services, construite avec AngularJS 1.7, Python Flask, et PostgreSQL.
 
-1 ) cloner le repository
+## Installation
 
-2 ) dans le répertoire du projet lancer le docker compose
-install docker on your computer
+### Prérequis
 
-3) Acceder à l'adresse suivate pour lancer le fontend et tester l'application : http://localhost:8080/
+- Assurez-vous que Docker est installé sur votre machine.
 
-Fonctionalité
-Afficher les intervetions : oui
-Ajouter une intervention : oui
-Afficher une modal : oui
-Trier apr ordre ascendant ou descendant : oui
-fonction de recherche : ajouté
-Modifier une intervention : non
-supprimer une intervention : non
-updater un status : non
+### Étapes
+
+1. Cloner le dépôt :
+
+    ```sh
+    git clone https://github.com/amaellounkokobi/simple-intervention.git
+    cd simple-intervention
+    ```
+
+2. Lancer Docker Compose depuis le répertoire du projet :
+
+    ```sh
+    docker compose up --build
+    ```
+
+3. Accéder au frontend et tester l'application à l'adresse suivante :
+
+    [http://localhost:8080/](http://localhost:8080/)
+
+## Fonctionnalités
+
+- Afficher les interventions : Oui
+- Ajouter une intervention : Oui
+- Afficher une modal : Oui
+- Trier par ordre ascendant ou descendant : Oui
+- Fonction de recherche : Ajoutée
+- Modifier une intervention : Non
+- Supprimer une intervention : Non
+- Mettre à jour un statut : Non
