@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+# Launch  Frontend
+  frontend-nginx:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+       - 8080:80
+
+# Launch the content service
+  content-nginx:
+    build:
+      context: ./content
+      dockerfile: Dockerfile
+    ports:
+       - 8081:80
+
+# Launch Backend 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+       - 5000:5000
+    environment:
+      - DB_URL=postgresql://root:root@db:5432/si
+    depends_on:
+      - db
+      
+  db:
+    container_name: db
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: si
+    volumes:
+    - database:/var/lib/postgresql/data
+volumes:
+  database: {}

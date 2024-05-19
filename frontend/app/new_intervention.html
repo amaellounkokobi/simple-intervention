@@ -1,0 +1,83 @@
+    <md-dialog aria-label="Planifier une interventions" ng-controller="InterventionController">
+        
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Planifier une intervention</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon  aria-label="Close dialog">X</md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+          <form  ng-submit="addIntervention()">
+        <md-dialog-content>
+            <div class="card-body">
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Titre</label>
+                        <input type="text" placeholder="Libellé" ng-model="newintervention.title" ng-required="true"/>
+                    </md-input-container>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Description</label>
+                        <input type="text" placeholder="Description" ng-model="newintervention.description" ng-required="true"/>
+                    </md-input-container>
+                </div>
+
+                <div class="form-group flex-group">
+                    <md-input-container class="md-block">
+                        <label>Date de début</label>
+                        <md-datepicker ng-model="dateStart"
+                            md-placeholder="" ng-required="true">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div uib-timepicker ng-model="timeStart"  hour-step="1" minute-step="30" show-meridian="ismeridian" display-format="HH:mm" ng-required="true">
+                    </div>
+                </div>
+
+                <div class="form-group flex-group">
+                    <md-input-container class="md-block">
+                        <label>Date de fin</label>
+                        <md-datepicker ng-model="dateEnd"
+                            md-placeholder="" ng-required="true">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div uib-timepicker ng-model="timeEnd"  hour-step="1" minute-step="30" show-meridian="ismeridian" display-format="HH:mm:ss" ng-required="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Intervenant</label>
+                        <input type="text" placeholder="Intervenant" ng-model="newintervention.collaborator" ng-required="true"/>
+                        <!--<md-select ng-model="newintervention.collaborator_id" ng-required="true">
+                            <md-option ng-value="collaborator.id" ng-repeat="collaborator in collaborators">
+                                {{ collaborator.company }}
+                            </md-option>
+                        </md-select>-->
+                    </md-input-container>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Lieu</label>
+                        <input type="text" placeholder="Lieu" ng-model="newintervention.location" ng-required="true"/>
+                        <!--<md-select ng-model="newintervention.location_id" ng-required="true">
+                            <md-option ng-value="location.id" ng-repeat="location in locations">
+                                {{ location.name }}
+                            </md-option>
+                        </md-select>-->
+                    </md-input-container>
+                </div>
+            </div>
+            </md-dialog-content>
+                <md-dialog-actions layout="row">
+                    <button type="submit"  ng-click="answer('add')" class="btn btn-sm btn-success">
+                        Planifier
+                       </button>
+                  </md-dialog-actions>
+        </form>
+    
+    </md-dialog>

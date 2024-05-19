@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="simpleInterventionApp">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <script src="app/lib/angular.min.js"></script>
+      <script src="app/lib/angular-animate.min.js"></script>
+      <script src="app/lib/angular-aria.min.js"></script>
+      <script src="app/lib/angular-messages.min.js"></script>
+      <script src="app/lib/angular-material.min.js"></script>
+      <script src="app/lib/smart-table.js"></script>
+      <script src="app/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+      <script src="app/app.module.js"></script>
+      <script src="assets/bootstrap/vendor/jquery/jquery.min.js"></script>
+      <script src="assets/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/bootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="assets/bootstrap/js/sb-admin-2.min.js"></script>
+      <script src="app/components/intervention/intervention.module.js"></script>
+      <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+      <link href="assets/bootstrap/css/sb-admin-2.css" rel="stylesheet">
+      <link href="assets/css/style.css" rel="stylesheet">
+      <link href="assets/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link href="assets/css/angular-material.css" rel="stylesheet" type="text/css">
+      <title>Simple intervention</title>
+   </head>
+   <body>
+    <div id="wrapper">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+               <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">simple intervention</div>
+         </a>
+         <li class="nav-item">
+            <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+         </li>
+        
+      </ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+         <div id="content">
+            <div ng-controller="InterventionController">
+               <div class="card shadow mb-4">
+                  <div class="card-header py-3 flex-group">
+                     <h6 class="m-0 font-weight-bold text-primary">Interventions</h6>
+                     <div class="col-sm-12 col-md-6">
+                        <div id="dataTable_filter" class="dataTables_filter">
+                           <input ng-model="search" class="form-control" placeholder="Rechercher ..." type="text" />
+                        </div>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                           <div class="dataTables_length" id="dataTable_length">
+                              <button ng-model="order" ng-click="orderList()" class="btn btn-sm btn-primary ">
+                              Plus / Moins récentes
+                              </button>
+                              <button type="button" ng-click="showModal($event)" class="btn btn-sm btn-success">
+                                + Nouvelle intervention
+                                </button>
+                           </div>
+                        </div>
+
+                     </div>
+                     <div class="row">
+                        <div class="table-responsive">
+                           <table  class="table table-striped ">
+                              <thead>
+                                 <tr>
+                                    <th >Libellé</th>
+                                    <th >Description</th>
+                                    <th >Intervenant</th>
+                                    <th >Lieu</th>
+                                    <th >Début</th>
+                                    <th >Fin</th>
+                                    <th >Actions </th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="intervention in interventions | orderBy: order | filter: search ">
+                                    <td>{{ intervention.title }}</td>
+                                    <td>{{ intervention.description }}</td>
+                                    <td>{{ intervention.collaborator }}
+                                    </td>
+                                    <td>{{ intervention.location }}</td>
+                                    <td>{{ intervention.date_start | date: 'dd-MM-yyyy à HH:mm' }}</td>
+                                    <td>{{ intervention.date_end | date: 'dd-MM-yyyy à HH:mm' }}</td>
+                                    <td>
+                                        <div class="flex-group">
+                                            <button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-light">
+                                            Modifier
+                                            </button>
+                                            <button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
+                                            Supprimer
+                                            </button>
+                                        </div>
+
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+   </body>
+</html>

@@ -1,0 +1,72 @@
+<div ng-controller="InterventionController">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Modifier une interventions</h6>
+        </div>
+        <div class="card-body">
+            <form ng-submit="editIntervention()">
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Titre</label>
+                        <input type="text" placeholder="Libellé" ng-model="editintervention.title" ng-required="true" />
+                    </md-input-container>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Description</label>
+                        <input type="text" placeholder="Description" ng-model="editintervention.description"
+                            ng-required="true" />
+                    </md-input-container>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Date de début</label>
+                        <md-datepicker ng-model="dateStart" md-placeholder="Entrer une date de début"
+                            ng-required="true">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div uib-timepicker ng-model="timeStart" hour-step="1" minute-step="30" show-meridian="ismeridian"
+                        display-format="HH:mm" ng-required="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Date de fin</label>
+                        <md-datepicker ng-model="dateEnd" md-placeholder="Entrer une date de fin" ng-required="true">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div uib-timepicker ng-model="timeEnd" hour-step="1" minute-step="30" show-meridian="ismeridian"
+                        display-format="HH:mm:ss" ng-required="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Intervenant</label>
+                        <md-select ng-model="editintervention.collaborator_id" ng-required="true">
+                            <md-option ng-value="collaborator.id" ng-repeat="collaborator in collaborators">
+                                {{ collaborator.company }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div class="form-group">
+                    <md-input-container class="md-block">
+                        <label>Lieu</label>
+                        <md-select ng-model="editintervention.location_id" ng-required="true">
+                            <md-option ng-value="location.id" ng-repeat="location in locations">
+                                {{ location.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <input type="submit" value="Modifier" class="btn btn-sm btn-success">
+
+        </div>
+        </form>
+    </div>
+</div>

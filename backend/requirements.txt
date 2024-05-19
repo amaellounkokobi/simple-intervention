@@ -1,0 +1,6 @@
+Flask==0.12.4
+Flask-SQLAlchemy==2.1 
+psycopg2
+Flask-Cors==3.0.8
+Werkzeug==0.16.1
+marshmallow==2.21.0

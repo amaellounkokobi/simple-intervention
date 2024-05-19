@@ -1,0 +1,38 @@
+A faire 
+
+terminer la lecture des vidéos
+	x - Angular
+	x - flask
+	x -postgresql
+
+x verifier les bonne pratique
+x Voir la containerisation
+	- BDD
+	- Front
+	- Back
+	- Content
+
+x faire une architechture
+x créer les docker
+x chercher une template bootstrap adapter
+x lister les dépendences
+x commencer le backend avec flask
+Faire le front end angular
+PAckager l'app
+faire un readme
+crée le REPO
+x Crée le docker compose
+-------------
+gerer les accents dans les ajout de données
+
+--------------
+Bonus pour l'app
+I18n
+gestion technicien
+gestion de lieu
+Gestion de type d'intervention
+Jobs
+wizard
+
+bonus ++
+Authentification
