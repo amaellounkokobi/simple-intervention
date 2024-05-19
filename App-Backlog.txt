@@ -1,38 +1,43 @@
-A faire 
+# Backlog pour l'Application de Gestion d'Intervention
 
-terminer la lecture des vidéos
-	x - Angular
-	x - flask
-	x -postgresql
+## À faire
 
-x verifier les bonne pratique
-x Voir la containerisation
-	- BDD
-	- Front
-	- Back
-	- Content
+### Apprentissage et Vérifications
+- [x] Auto formation
+  - [x] Angular
+  - [x] Flask
+  - [x] PostgreSQL
 
-x faire une architechture
-x créer les docker
-x chercher une template bootstrap adapter
-x lister les dépendences
-x commencer le backend avec flask
-Faire le front end angular
-PAckager l'app
-faire un readme
-crée le REPO
-x Crée le docker compose
--------------
-gerer les accents dans les ajout de données
+### Containerisation
+  - [x] Base de données
+  - [x] Frontend
+  - [x] Backend
+  - [x] Content
 
---------------
-Bonus pour l'app
-I18n
-gestion technicien
-gestion de lieu
-Gestion de type d'intervention
-Jobs
-wizard
+### Développement Initial
+- [x] Faire une architecture
+- [x] Créer les Dockerfiles
+- [x] Chercher un template Bootstrap adapté
+- [x] Lister les dépendances
+- [x] Commencer le backend avec Flask
+- [x] Faire le frontend avec Angular
+- [x] Packager l'application
+- [x] Faire un README
+- [x] Créer le dépôt Git
+- [x] Créer le docker-compose
 
-bonus ++
-Authentification
+### Gestion des Données
+- [ ] Gérer les accents dans les ajouts de données
+
+## Bonus pour l'Application
+
+### Fonctionnalités Avancées
+- [ ] I18n (Internationalisation)
+- [ ] Gestion des techniciens
+- [ ] Gestion des lieux
+- [ ] Gestion des types d'intervention
+- [ ] Jobs
+- [ ] Wizard
+
+### Bonus ++
+- [ ] Authentification
