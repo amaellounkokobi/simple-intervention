@@ -16,6 +16,9 @@ Une application web de gestion d'interventions pour divers services, construite 
 
     ```sh
     git clone https://github.com/amaellounkokobi/simple-intervention.git
+    ```
+    
+    ```    
     cd simple-intervention
     ```
 
