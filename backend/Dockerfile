@@ -9,6 +9,10 @@ COPY . /backend
 
 COPY ./requirements.txt /backend/requirements.txt
 
+# Copy the wait-for-it script into the container
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
 # Install app requirements
 RUN pip install -r requirements.txt
 
@@ -16,4 +20,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Run the backend
-CMD python ./run.py
+CMD  ["./wait-for-it.sh", "db:5432", "--", "python", "./run.py"]
