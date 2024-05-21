@@ -2092,7 +2092,7 @@ md-datepicker[disabled] .md-datepicker-triangle-button {
 
 md-dialog {
   opacity: 0;
-  min-width: 80%;
+  min-width: 300px;
   max-width: 80%;
   max-height: 80%;
   position: relative;

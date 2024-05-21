@@ -5,183 +5,203 @@
  * 
  *  $scope
  *  $http
- *  $filter
  *  $mdDialog
  * 
  */
 interventionModule = angular.module('interventionModule', [])
 
-interventionModule.controller('InterventionController', ['$scope', '$http', '$filter', '$mdDialog', function ($scope, $http, $filter, $mdDialog, ){
-    
-    /**
-    * Variable declaration
-    * @newintervention : New data for intervention
-    * @editintervention : edited data for intervention
-    * @order : order display tab
-    */
-    $scope.newintervention = {};
-    $scope.editintervention = {};
+interventionModule.controller('InterventionController', ['$scope', '$http', '$mdDialog', function ($scope, $http, $mdDialog,) {
+
+     /**
+     *  
+     *  Variable declaration
+     * 
+     */
     $scope.order = '-date_crea';
 
     /**
-     *  Add an intervention
+     *  
+     *  Intervention logic functions
+     * 
      */
-    $scope.addIntervention = function(){
-        // create datetime value for date end
-        var dStart = $filter('date')($scope.dateStart, 'yyyy-MM-dd')
-        var tStart = $filter('date')($scope.timeStart, 'HH:mm:ss')
-        var date_start = dStart + ' ' + tStart
-        $scope.newintervention.date_start = date_start
-
-        // create datetime value for date end
-        var dEnd = $filter('date')($scope.dateEnd, 'yyyy-MM-dd')
-        var tEnd = $filter('date')($scope.timeEnd, 'HH:mm:ss')
-        var date_end = dEnd + ' ' + tEnd
-        $scope.newintervention.date_end = date_end
-
-        $http.post("http://localhost:5000/api/interventions/", $scope.newintervention)
-        .then(function (response) {
-            console.log("Après l'ajout :",response);
-            $scope.interventions.push(response)
-            $mdDialog.hide();
-        }, function (error) {
-            console.error('Error adding intervention data');
-        });
-
+    
+    /* Return the tag to order the list of interventions */
+    $scope.orderList = function () {
+        $scope.order == '-date_crea' ? $scope.order = 'date_crea' : $scope.order = "-date_crea";
     };
 
-    /**
-     *  Combinate date time
-     */
-    $scope.combineDateTime = function(date, time){
-        return(date + ' ' + time);  
-    };
-
-    /**
-     *  Return the tag to order the list of interventions
-     */
-    $scope.orderList = function(){
-            if ($scope.order == '-date_crea'){
-                $scope.order = 'date_crea';
+    /* Manage status of an intervention */
+    $scope.updateStatus = function (data) {
+        for (const key in data.intervention) {
+            if (data.intervention[key] !== undefined && data.intervention[key] !== null) {
+                data.intervention.status = 1;
             } else {
-                $scope.order = "-date_crea";
+                data.intervention.status = 0;
+                break;
             }
-        };
+        }
 
-    /**
-     * This method set the intervention edit form
-     */
-    setInterventions = function (){
+        if ($scope.interventionFinishStatus(data.intervention) == 2)
+            data.intervention.status = 2;
 
-        $http.get("http://localhost:5000/api/intervention/")
-        .then(function (response) {
+        return (data);
+    }
 
-            $scope.interventions = response.data.interventions[0];
+    /* Manage the finish state of an intervention */
+    $scope.interventionFinishStatus = function (intervention) {
+        let date_intervention = new Date(intervention.date_end).getTime();
+        let date_now = Date.now()
 
-            console.log($scope.interventions)
-
-        }, function (error) {
-            console.error('Error fetching intervention data');
-        });
+        // Compare the dates and return the correct  status
+        if (date_intervention != 0) {
+            if (date_now > date_intervention) {
+                return (2);
+            } else {
+                return (intervention.status);
+            }
+        } else {
+            return (0);
+        }
     }
 
     /**
-     * This method is resposible for getting intervention data
+     *  
+     *  Calls mdDialog Functions
+     * 
      */
-    getInterventions = function (){
-        $http.get("http://localhost:5000/api/interventions/")
-        .then(function (response) {
 
-            $scope.interventions = response.data.interventions[0];
-            console.log("get the datas :",$scope.interventions)
+    /* This Dialog is responsible for removing an intervention */
+    $scope.removeInterventionDialog = function (ev, intervention) {
+        let confirm = $mdDialog.confirm()
+            .title("Supprimer l'intervention " + intervention.title)
+            .textContent('Êtes-vous sûr de vouloir supprimer cette intervention ?')
+            .ariaLabel('Suppression')
+            .targetEvent(ev)
+            .ok('oui')
+            .cancel('non');
+        $mdDialog.show(confirm).then(function () {
+            deleteIntervention(intervention);
+        }, function () { });
+    };
 
-        }, function (error) {
-            console.error('Error fetching intervention data');
-        });
-    }
+    /* This Dialog is responsible for editing an intervention */
+    $scope.editInterventionDialog = function (ev, intervention) {
+        $scope.editintervention = intervention
 
-    /**
-     * This method is resposible for getting collaborators data
-     */
-    getCollaborators = function (){
-    $http.get("http://localhost:5000/api/collaborators/")
-        .then(function (response) {
-
-            $scope.collaborators = response.data.collaborators[0];
-
-            console.log($scope.collaborators)
-
-        }, function (error) {
-            console.error('Error fetching collaborators data');
-        });
-    }
-
-    /**
-     * This method is resposible for getting locations data
-     */
-    getLocations = function (){
-    $http.get("http://localhost:5000/api/locations/")
-        .then(function (response) {
-
-            $scope.locations = response.data.locations[0];
-
-            console.log($scope.locations)
-
-        }, function (error) {
-            console.error('Error fetching locations data');
-        });
-    }
-
-    /**
-     * This method is resposible for showing a Dialog for add  an interventionn
-     */
-    $scope.showModal = function (ev) {
         $mdDialog.show({
-          controller: this.InterventionController,
-          templateUrl: 'new_intervention.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose: true,
-          fullscreen: $scope.customFullscreen,
-        }).then(function(){
-            //dirty solution
-            location.reload()
+            locals: { intervention: $scope.editintervention },
+            controller: editDialogController,
+            templateUrl: 'app/templates/edit_intervention.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen,
+        }).then(function (responseDialog) {
+            editIntervention($scope, responseDialog, $http);
+        }, function () { });
+    };
 
-            /**
-             *  Adding the new intervention inside the interventions 
-             *  Better solution but doesn't work as expected
-             */
-            //console.log($scope.newintervention)
-            //$scope.interventions.push($scope.newintervention)
-            //console.log($scope.interventions)
-          });
-      };
-      
-    /**
-     * This method is executed while hiding the dialog
-     */
-    $scope.hide = function () {
-        $mdDialog.hide();
-      };
+    /* This Dialog is responsible for Adding an intervention */
+    $scope.addInterventionDialog = function (ev) {
+        $mdDialog.show({
+            locals: { intervention: $scope.intervention },
+            controller: addDialogController,
+            templateUrl: 'app/templates/new_intervention.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen,
+        }).then(function (responseDialog) {
+            addIntervetion($scope, responseDialog, $http);
+        }, function () { });
+    };
+
+    /* Edit Intervention dialog controls implementation */
+    function editDialogController($scope, $mdDialog, intervention) {
+        $scope.intervention = intervention
+        $scope.hide = function () { $mdDialog.hide({}); };
+        $scope.cancel = function () { $mdDialog.cancel({}); };
+        $scope.answer = function (intervention) {
+            $mdDialog.hide({
+                intervention: intervention
+            });
+        };
+    }
+
+    /* Add Intervention dialog controls implementation */
+    function addDialogController($scope, $mdDialog) {
+        $scope.intervention = {
+            'title': null,
+            'description': null,
+            'date_start': null,
+            'date_end': null,
+            'collaborator': null,
+            'location': null
+        };
+        $scope.hide = function () { $mdDialog.hide({}); };
+        $scope.cancel = function () { $mdDialog.cancel({}); };
+        $scope.answer = function (newintervention) {
+            $mdDialog.hide({
+                intervention: newintervention,
+            });
+        };
+    }
 
     /**
-     * This method is executed while closing the dialog
+     *  
+     * API Calls Function
+     * 
      */
-    $scope.cancel = function () {
-        $mdDialog.cancel();
-      };
 
-    /**
-     * This method is executed while validating the dialog
-     */
-    $scope.answer = function (answer) {
-      };
-      
-      /*
-      * Init Data
-      */
-      getInterventions();
-      getCollaborators();
-      getLocations();
+    /* List all interventions */
+    $http.get("http://localhost:5000/api/interventions/")
+        .then(function (response) {
+            $scope.interventions = response.data.interventions[0];
+        }, function (error) {
+            console.error('Error fetching intervention data');
+        });
+
+    /* Delete an Intervention */
+    function deleteIntervention(intervention) {
+        $http.delete("http://localhost:5000/api/intervention/" + intervention.id)
+            .then(function (response) {
+                let removedIntervention = $scope.interventions.indexOf(intervention);
+                $scope.interventions.splice(removedIntervention, 1);
+            }, function (error) {
+                console.error('Error deteleting intervention data');
+            });
+    }
+
+    /* Delete an Intervention */
+    function addIntervetion($scope, responseDialog, $http) {
+        let data = $scope.updateStatus(responseDialog);
+        $http.post("http://localhost:5000/api/interventions/", data.intervention)
+            .then(function (response) {
+                $scope.interventions.push(response.data[0]);
+            }, function (error) {
+                console.error('Error adding intervention data');
+            });
+    }
+
+    /* Delete an Intervention */
+    function editIntervention(responseDialog) {
+        let data = $scope.updateStatus(responseDialog);
+        $http.put("http://localhost:5000/api/intervention/" + responseDialog.intervention.id, data.intervention)
+            .then(function (response) {
+                let removedIntervention = $scope.interventions.indexOf(responseDialog.intervention);
+                $scope.interventions.splice(removedIntervention, 1);
+                $scope.interventions.splice(removedIntervention, 0, response.data[0]);
+            }, function (error) {
+                console.error('Error editing intervention data');
+            });
+    }
 
 }]);
+
+
+
+
+
+
+
+
