@@ -1,3 +1,6 @@
+"""
+Intervention serializer
+"""
 from API.serializers.collaborator import CollaboratorSchema
 from API.serializers.location import LocationSchema
 from marshmallow import Schema, fields

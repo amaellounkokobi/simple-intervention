@@ -1,3 +1,6 @@
+"""
+Collaborator serializer
+"""
 from marshmallow import Schema, fields
 
 class CollaboratorSchema(Schema):

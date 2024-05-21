@@ -27,7 +27,8 @@ services:
       - DB_URL=postgresql://root:root@db:5432/si
     depends_on:
       - db
-      
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "./run.py"]
+
   db:
     container_name: db
     image: postgres:alpine
