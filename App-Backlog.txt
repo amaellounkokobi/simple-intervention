@@ -36,8 +36,7 @@
 - [ ] Gestion des techniciens
 - [ ] Gestion des lieux
 - [ ] Gestion des types d'intervention
-- [ ] Jobs
-- [ ] Wizard
+- [ ] Wizard de prise en main
 
 ### Bonus ++
 - [ ] Authentification

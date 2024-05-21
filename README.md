@@ -8,7 +8,9 @@ Une application web de gestion d'interventions pour divers services, construite 
 
 ### Prérequis
 
-- Assurez-vous que Docker est installé sur votre machine.
+- Assurez-vous que Docker Desktop est installé et lancé sur votre machine => https://www.docker.com/products/docker-desktop/.
+  et que vous possédé un compte docker.
+- Assurez-vous que Git est installé sur votre machine => https://git-scm.com/downloads.
 
 ### Étapes
 
@@ -39,6 +41,6 @@ Une application web de gestion d'interventions pour divers services, construite 
 - Afficher une modal : Oui
 - Trier par ordre ascendant ou descendant : Oui
 - Fonction de recherche : Ajoutée
-- Modifier une intervention : Non
-- Supprimer une intervention : Non
-- Mettre à jour un statut : Non
+- Modifier une intervention : Oui
+- Supprimer une intervention : Oui
+- Mettre à jour un statut : Oui
