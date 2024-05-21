@@ -39,6 +39,6 @@ Une application web de gestion d'interventions pour divers services, construite 
 - Afficher une modal : Oui
 - Trier par ordre ascendant ou descendant : Oui
 - Fonction de recherche : Ajoutée
-- Modifier une intervention : Non
-- Supprimer une intervention : Non
-- Mettre à jour un statut : Non
+- Modifier une intervention : Oui
+- Supprimer une intervention : Oui
+- Mettre à jour un statut : Oui
