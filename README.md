@@ -23,8 +23,8 @@ Une application web de gestion d'interventions pour divers services, construite 
     ```    
     cd simple-intervention
     ```
-
-2. Lancer Docker Compose depuis le répertoire du projet :
+    
+3. Lancer Docker Compose depuis le répertoire du projet :
 
     ```sh
     docker compose build
@@ -33,10 +33,10 @@ Une application web de gestion d'interventions pour divers services, construite 
     docker compose up
     ```
 
-3. Accéder au frontend et tester l'application à l'adresse suivante :
+4. Accéder au frontend et tester l'application à l'adresse suivante :
 
     [http://localhost:8080/](http://localhost:8080/)
-
+    
 ## Fonctionnalités
 
 - Afficher les interventions : Oui
