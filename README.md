@@ -27,7 +27,10 @@ Une application web de gestion d'interventions pour divers services, construite 
 2. Lancer Docker Compose depuis le répertoire du projet :
 
     ```sh
-    docker compose up --build
+    docker compose build
+    ```
+    ```sh
+    docker compose up
     ```
 
 3. Accéder au frontend et tester l'application à l'adresse suivante :
