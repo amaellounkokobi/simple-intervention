@@ -28,6 +28,10 @@ def interventions():
     # Add a new intervention
     if request.method == 'POST':
         data = request.json
+        
+        if data['status'] == None:
+            data['status'] = 0
+
         new_intervention = Intervention(title=data['title'],
                                         description=data['description'],
                                         date_crea=datetime.now(),
@@ -65,7 +69,11 @@ def intervention(id):
     # Edit an intervention
     if request.method == 'PUT':
         inter = Intervention.query.get_or_404(id)
-        data = request.json        
+        data = request.json
+        
+        if data['status'] == None:
+            data['status'] = 0
+
         inter.title = data['title'] 
         inter.description = data['description'] 
         inter.date_start = data['date_start']

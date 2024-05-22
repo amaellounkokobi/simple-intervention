@@ -19,6 +19,7 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
      */
     $scope.order = '-date_crea';
 
+
     /**
      *  
      *  Intervention logic functions
@@ -31,37 +32,40 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
     };
 
     /* Manage status of an intervention */
-    $scope.updateStatus = function (data) {
-        for (const key in data.intervention) {
-            if (data.intervention[key] !== undefined && data.intervention[key] !== null) {
-                data.intervention.status = 1;
+    $scope.updateStatus = function (intervention) {
+        for (const key in intervention) {
+            console.log("initial status", intervention.id ,intervention.status)
+            if (intervention[key] !== undefined || intervention[key] !== null) {
+                intervention.status = 1;
             } else {
-                data.intervention.status = 0;
+                intervention.status = 0;
                 break;
             }
         }
 
-        if ($scope.interventionFinishStatus(data.intervention) == 2)
-            data.intervention.status = 2;
+        if( intervention !== undefined)
+            if(intervention.status !== 0)
+                if ($scope.interventionFinishStatus(intervention) == 2)
+                    intervention.status = 2;
 
-        return (data);
+        return (intervention);
     }
 
     /* Manage the finish state of an intervention */
     $scope.interventionFinishStatus = function (intervention) {
-        let date_intervention = new Date(intervention.date_end).getTime();
-        let date_now = Date.now()
+            let date_intervention = new Date(intervention.date_end).getTime();
+            let date_now = Date.now()
 
-        // Compare the dates and return the correct  status
-        if (date_intervention != 0) {
-            if (date_now > date_intervention) {
-                return (2);
+            // Compare the dates and return the correct  status
+            if (date_intervention != 0) {
+                if (date_now > date_intervention) {
+                    return (2);
+                } else {
+                    return (intervention.status);
+                }
             } else {
-                return (intervention.status);
+                return (0);
             }
-        } else {
-            return (0);
-        }
     }
 
     /**
@@ -97,7 +101,7 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
         }).then(function (responseDialog) {
-            editIntervention($scope, responseDialog, $http);
+            editIntervention(responseDialog.intervention);
         }, function () { });
     };
 
@@ -112,13 +116,24 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen,
         }).then(function (responseDialog) {
-            addIntervetion($scope, responseDialog, $http);
+            addIntervetion(responseDialog.intervention);
         }, function () { });
     };
 
     /* Edit Intervention dialog controls implementation */
     function editDialogController($scope, $mdDialog, intervention) {
         $scope.intervention = intervention
+        if($scope.intervention === undefined){
+            $scope.intervention = {
+                'id' : intervention.id,
+                'title': null,
+                'description': null,
+                'date_start': null,
+                'date_end': null,
+                'collaborator': null,
+                'location': null
+            };
+        }
         $scope.hide = function () { $mdDialog.hide({}); };
         $scope.cancel = function () { $mdDialog.cancel({}); };
         $scope.answer = function (intervention) {
@@ -157,6 +172,8 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
     $http.get("http://localhost:5000/api/interventions/")
         .then(function (response) {
             $scope.interventions = response.data.interventions[0];
+            console.log('les interventions:', $scope.interventions)
+
         }, function (error) {
             console.error('Error fetching intervention data');
         });
@@ -173,9 +190,9 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
     }
 
     /* Delete an Intervention */
-    function addIntervetion($scope, responseDialog, $http) {
-        let data = $scope.updateStatus(responseDialog);
-        $http.post("http://localhost:5000/api/interventions/", data.intervention)
+    function addIntervetion(intervetion) {
+        let data = $scope.updateStatus(intervetion);
+        $http.post("http://localhost:5000/api/interventions/", data)
             .then(function (response) {
                 $scope.interventions.push(response.data[0]);
             }, function (error) {
@@ -183,12 +200,12 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
             });
     }
 
-    /* Delete an Intervention */
-    function editIntervention(responseDialog) {
-        let data = $scope.updateStatus(responseDialog);
-        $http.put("http://localhost:5000/api/intervention/" + responseDialog.intervention.id, data.intervention)
+    /* Edit an Intervention */
+    function editIntervention(intervention) {
+        let data = $scope.updateStatus(intervention);
+        $http.put("http://localhost:5000/api/intervention/" + intervention.id, data)
             .then(function (response) {
-                let removedIntervention = $scope.interventions.indexOf(responseDialog.intervention);
+                let removedIntervention = $scope.interventions.indexOf(intervention);
                 $scope.interventions.splice(removedIntervention, 1);
                 $scope.interventions.splice(removedIntervention, 0, response.data[0]);
             }, function (error) {
