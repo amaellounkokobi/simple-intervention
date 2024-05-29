@@ -16,7 +16,10 @@ from API.location import locationApi
 
 app = Flask(__name__)
 
-CORS(app, origins=["http://localhost:8080","http://localhost","http://0.0.0.0:8080","http://127.0.0.1:8080"])
+CORS(app, origins=["http://localhost:8080",
+                   "http://localhost",
+                   "http://0.0.0.0:8080",
+                   "http://127.0.0.1:8080"])
 
 app.register_blueprint(collaboratorApi, url_prefix='/api')
 app.register_blueprint(interventionApi, url_prefix='/api')
