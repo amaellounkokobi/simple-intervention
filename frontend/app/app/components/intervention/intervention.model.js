@@ -7,18 +7,16 @@ interventionModule.model = function($scope, $http) {
      */
 
     /* List all interventions */
-    $http.get("http://localhost:5000/api/interventions/")
+    $http.get("http://localhost:5001/api/interventions/")
         .then(function (response) {
             $scope.interventions = response.data.interventions[0];
-            console.log('les interventions:', $scope.interventions)
-
         }, function (error) {
             console.error('Error fetching intervention data');
         });
 
     /* Delete an Intervention */
     $scope.deleteIntervention = function (intervention) {
-        $http.delete("http://localhost:5000/api/intervention/" + intervention.id)
+        $http.delete("http://localhost:5001/api/intervention/" + intervention.id)
             .then(function (response) {
                 let removedIntervention = $scope.interventions.indexOf(intervention);
                 $scope.interventions.splice(removedIntervention, 1);
@@ -30,7 +28,7 @@ interventionModule.model = function($scope, $http) {
     /* Delete an Intervention */
     $scope.addIntervention =  function (intervention) {
         let data = $scope.updateStatus(intervention);
-        $http.post("http://localhost:5000/api/interventions/", data)
+        $http.post("http://localhost:5001/api/interventions/", data)
             .then(function (response) {
                 $scope.interventions.push(response.data[0]);
             }, function (error) {
@@ -41,7 +39,7 @@ interventionModule.model = function($scope, $http) {
     /* Edit an Intervention */
     $scope.editIntervention = function (intervention) {
         let data = $scope.updateStatus(intervention);
-        $http.put("http://localhost:5000/api/intervention/" + intervention.id, data)
+        $http.put("http://localhost:5001/api/intervention/" + intervention.id, data)
             .then(function (response) {
                 let removedIntervention = $scope.interventions.indexOf(intervention);
                 $scope.interventions.splice(removedIntervention, 1);

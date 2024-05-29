@@ -21,7 +21,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-       - 5000:5000
+       - 5001:5000
     environment:
       - DB_URL=postgresql://root:root@db:5432/si
     depends_on:

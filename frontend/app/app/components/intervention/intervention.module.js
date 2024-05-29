@@ -34,19 +34,15 @@ interventionModule.controller('InterventionController', ['$scope', '$http', '$md
 
         // Define status validate = 1 
         for (const key in intervention) {
-            console.log("initial status", intervention.id ,intervention.status)
             if (intervention[key] !== undefined || intervention[key] !== null) {
                 if (intervention[key] == ""){
                     intervention.status = 0;
-                    console.log('Test 0')
                     break;
                 } else {
                     intervention.status = 1;
-                    console.log('Test 1')
                 }
             } else {
                 intervention.status = 0;
-                console.log('Test 0')
                 break;
             }
         }
